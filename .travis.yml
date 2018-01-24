@@ -2,9 +2,12 @@ language: node_js
 
 node_js:
   - '6.10'
-
+install:
+  - npm install -g codecov
 before_script:
   - ./node_modules/.bin/static ./test/fixtures 2>&1 >/dev/null &
 
 script:
   - npm run test
+  - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+  - codecov
